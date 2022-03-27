@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import useLaunchInfo from '../../../../api/useLaunchInfo';
+import { View, Text, StyleSheet } from 'react-native';
+import LaunchTitle from './LaunchTitle';
 import { RootStackParamList } from '../../../../App/App';
 
 type LauncehsListNavProps = NativeStackNavigationProp<
@@ -23,12 +23,8 @@ const LaunchesList: React.FC<LaunchesListProps> = ({ launchIds }) => {
   const genList = () => {
     if (launchIds.length === 0) {
       return (
-        <View
-          style={{
-            height: 250,
-            alignItems: 'center',
-          }}>
-          <Text style={{ fontSize: 30, color: '#FF0000', paddingTop: 30 }}>
+        <View style={styles['map-content-item']}>
+          <Text style={styles['map-content-item-txt']}>
             No Launches Available
           </Text>
         </View>
@@ -52,59 +48,14 @@ const LaunchesList: React.FC<LaunchesListProps> = ({ launchIds }) => {
   return <View style={styles['top-wrapper']}>{genList()}</View>;
 };
 
-type LaunchTitleProps = {
-  launchId: string;
-  navToLaunchPage: Function;
-};
-const LaunchTitle: React.FC<LaunchTitleProps> = ({
-  launchId,
-  navToLaunchPage,
-}) => {
-  const { data, isSuccess, isLoading } = useLaunchInfo(launchId);
-
-  if (isLoading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
-  if (isSuccess) {
-    return (
-      <>
-        <TouchableOpacity
-          style={styles['main-wrapper']}
-          onPress={() => {
-            console.log(data);
-
-            navToLaunchPage(data.name, data);
-          }}>
-          <Text style={styles['launch-name']}>{data.name}</Text>
-        </TouchableOpacity>
-      </>
-    );
-  }
-
-  return (
-    <View>
-      <Text>Error</Text>
-    </View>
-  );
-};
 const styles = StyleSheet.create({
+  'map-content-item': {
+    height: 250,
+    alignItems: 'center',
+  },
+  'map-content-item-txt': { fontSize: 30, color: '#FF0000', paddingTop: 30 },
   'top-wrapper': {
     marginTop: 15,
-  },
-  'launch-name': {
-    fontSize: 23,
-    paddingLeft: 10,
-    fontWeight: '600',
-    color: '#050616',
-    paddingBottom: 20,
-  },
-  'main-wrapper': {
-    height: 50,
   },
 });
 
