@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   'homepage-next-button': {
-    // flex: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
